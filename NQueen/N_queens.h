@@ -31,8 +31,12 @@ class Board{
     void print_board(){
         //print board by iterate the array here
         for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++)
-                cout << " " << chess_board[i][j]<<" ";
+            for (int j = 0; j < size; j++){
+                char label = '-';
+                if (chess_board[i][j] == 1) label = 'Q';
+                cout << " " <<label <<" ";
+            }
+
             cout<< endl;
         }
     }
