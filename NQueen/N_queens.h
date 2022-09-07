@@ -14,7 +14,6 @@ class Board{
     set<int> diagUpRight; // nrow+ncol = const
     set<int> diagDownRight; // nrow-ncol = const
     set<int> used_row;
-
     bool is_this_position_safe(int row,int col){
         return !(used_row.find(row) != used_row.end() ||
                  diagUpRight.find(row+col)!=diagUpRight.end()||
@@ -48,12 +47,13 @@ class Board{
                     diagUpRight.insert(row+col);
                     diagDownRight.insert(row-col);
                     if (solve(col+1)) return true;
-                }else{
-                    // remove queen at row,col position
-                    chess_board[row][col] = 0;
-                    used_row.erase(row);
-                    diagUpRight.erase(row+col);
-                    diagDownRight.erase(row-col);
+                    else{
+                        // remove queen at row,col position
+                        chess_board[row][col] = 0;
+                        used_row.erase(row);
+                        diagUpRight.erase(row+col);
+                        diagDownRight.erase(row-col);
+                    }
                 }
             }
         }
