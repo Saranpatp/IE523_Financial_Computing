@@ -33,17 +33,21 @@ class Board{
     void print_board(){
         //print board by iterate the array here
         for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++)
-                cout << " " << chess_board[i][j]<<" ";
+            for (int j = 0; j < size; j++){
+                char label = '-';
+                if (chess_board[i][j]==1) label = 'Q';
+                cout << " " << label <<" ";
+            }
             cout << endl;
         }
     }
 
     void solve(int col){
-        if (col==size) {
+        if (col>=size) {
+            nSolution++;
+            cout<<"Solution: "<< nSolution <<endl;
             print_board();
             cout << endl;
-            nSolution++;
             return;
         }
         else{
