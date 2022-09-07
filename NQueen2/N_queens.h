@@ -5,8 +5,8 @@
 #ifndef N_queens
 #define N_queens
 #include <set>
-using namespace std;
 
+using namespace std;
 class Board{
     int size;
     int **chess_board;
@@ -34,37 +34,39 @@ class Board{
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++)
                 cout << " " << chess_board[i][j]<<" ";
-            cout<< endl;
+            cout << endl;
         }
     }
 
-    bool solve(int col){
-        if (col>=size) return true;
+    void solve(int col){
+        if (col>=size) {
+            print_board();
+            cout << endl;
+            return;
+        }
         else{
             for (int row = 0; row<size;row++){ //row
-                if (is_this_position_safe(row,col)) {
-                    chess_board[row][col] = 1;
-                    used_row.insert(row);
-                    diagUpRight.insert(row+col);
-                    diagDownRight.insert(row-col);
-                    if (solve(col+1)) return true;
-                }else{
-                    // remove queen at row,col position
-                    chess_board[row][col] = 0;
-                    used_row.erase(row);
-                    diagUpRight.erase(row+col);
-                    diagDownRight.erase(row-col);
+                if (is_this_position_safe(row,col)) continue;
+                chess_board[row][col] = 1;
+                used_row.insert(row);
+                diagUpRight.insert(row+col);
+                diagDownRight.insert(row-col);
+                solve(col+1);
+                //try queen in another position
+                chess_board[row][col] = 0;
+                used_row.erase(row);
+                diagUpRight.erase(row+col);
+                diagDownRight.erase(row-col);
                 }
             }
-        }
-        return false;
+        return;
     }
 
 public:
     void nQueens(int n){//use backtracking here
         initialize(n);
-        if(solve(0)) print_board();
-        else cout<<"There is no solution to the " << n <<" Queens Problem"<< endl;
+        solve(0);
+        //else cout<<"There is no solution to the " << n <<" Queens Problem"<< endl;
     }
 };
 
