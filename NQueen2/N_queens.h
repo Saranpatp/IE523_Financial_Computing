@@ -10,7 +10,7 @@ using namespace std;
 class Board{
     int size;
     int **chess_board;
-
+    int nSolution;
     set<int> diagUpRight; // nrow+ncol = const
     set<int> diagDownRight; // nrow-ncol = const
     set<int> used_row;
@@ -23,6 +23,7 @@ class Board{
 
     void initialize(int n){
         size = n;
+        nSolution =0;
         //Initialize chess board
         chess_board = new int*[n]; // pointer pint to n int 1 dim
         for(int i = 0; i < size; i++)
@@ -39,20 +40,21 @@ class Board{
     }
 
     void solve(int col){
-        if (col>=size) {
+        if (col==size) {
             print_board();
             cout << endl;
+            nSolution++;
             return;
         }
         else{
             for (int row = 0; row<size;row++){ //row
-                if (is_this_position_safe(row,col)) continue;
+                if (!is_this_position_safe(row,col)) continue; // if it been used try the next one
                 chess_board[row][col] = 1;
                 used_row.insert(row);
                 diagUpRight.insert(row+col);
                 diagDownRight.insert(row-col);
                 solve(col+1);
-                //try queen in another position
+                //try queen in another position too
                 chess_board[row][col] = 0;
                 used_row.erase(row);
                 diagUpRight.erase(row+col);
@@ -66,6 +68,7 @@ public:
     void nQueens(int n){//use backtracking here
         initialize(n);
         solve(0);
+        cout<<"There are " << nSolution <<" solution to the " << n <<" Queens Problem"<< endl;
         //else cout<<"There is no solution to the " << n <<" Queens Problem"<< endl;
     }
 };
