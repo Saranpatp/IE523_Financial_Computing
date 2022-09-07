@@ -1,6 +1,9 @@
 #include <iostream>
 #include "N_queens.h"
-int main() {
-    std::cout << "Hello, World!" << std::endl;
+int main(int argc, char * const argv[]) {
+    Board x;
+    int board_size;
+    sscanf (argv[1], "%d",&board_size);
+    x.nQueens(board_size);
     return 0;
 }
