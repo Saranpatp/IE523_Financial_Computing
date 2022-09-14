@@ -17,13 +17,13 @@ int main(int argc,char* argv[]) {
     }
     vector<bool> did_i_pick_this(size_of_array);
     fill(did_i_pick_this.begin(),did_i_pick_this.begin()+n, true);
-
+    sort(did_i_pick_this.begin(),did_i_pick_this.end());
     do{
         cout<<"{ ";
         for(int i = 0;i<size_of_array; i++){
-            if(did_i_pick_this[i]) cout<<array[i]<< " ";
+            if(did_i_pick_this[(size_of_array-1)-i]) cout<<array[i]<< " ";
         }
         cout<<"}"<<endl;
-    }while(prev_permutation(did_i_pick_this.begin(),did_i_pick_this.end()));
+    }while(next_permutation(did_i_pick_this.begin(),did_i_pick_this.end()));
     return 0;
 }
