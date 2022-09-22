@@ -55,6 +55,20 @@ class Sudoku
 
     std::tuple<bool, int> positive_diagonals_valid()
     {
+        // add set or map here to check that it is valid
+        set<int> posDiag;
+        //check first half
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j <= i; j++){
+                if (posDiag.find(puzzle[i][j]) != posDiag.end()) return {false,puzzle[i][j]};
+            }
+        }
+        for (int j = 1; j < 9; j++){
+            for (int i = 9-j; i >= j; i--){
+                if (posDiag.find(puzzle[i][j]) != posDiag.end()) return {false,puzzle[i][j]};
+            }
+        }
+        return {true,0};
         // write code that checks if there are any repeated
         // digits along the 15-many positive diagonals
         // If the intial puzzle does not meet this requirement,
@@ -120,10 +134,21 @@ public:
         }
     }
 
+    bool isPuzzleSloved(int row, int col){
+        for(int i = row; i < 9;i++)
+            for (int j = col; j < 9; j++)
+                if (puzzle[i][j] != 0) return false;
+        return true;
+    }
+
     // Public member function that (recursively) implements the brute-force
     // search for possible solutions to the incomplete Sudoku puzzle
     bool Solve(int row, int col)
     {
+        if(isPuzzleSloved(row,col)) return true;
+        for (int k = 1; k <= 9 ; k++){
+            if (row_valid(row,k)&& col_valid(col,k)&&)
+        }
         // this part of the code identifies the row and col number of the
         // first incomplete (i.e. 0) entry in the puzzle.  If the puzzle has
         // no zeros, the variable row will be 9 => the puzzle is done, as
