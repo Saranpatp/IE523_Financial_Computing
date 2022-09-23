@@ -189,8 +189,8 @@ public:
                             get<0>(positive_diagonals_valid()) &&
                             get<0>(adjacent_cells_along_positive_diagonals_have_at_least_a_difference_of_4()) &&
                             Solve(i,j)
-                            ) {
-                            return true;
+                                ) {
+                            print_puzzle();
                         }
                     }
                     //cannot slove

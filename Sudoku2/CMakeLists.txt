@@ -3,4 +3,4 @@ project(Sudoku2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Sudoku2 main.cpp cmake-build-debug/hint.h)
+add_executable(Sudoku2 main.cpp hint.h)

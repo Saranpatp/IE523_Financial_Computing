@@ -18,17 +18,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9c50fb-0cad-4ccb-a319-5ac03166046e" name="Changes" comment="k">
-      <change afterPath="$PROJECT_DIR$/../Sudoku2/.idea/Sudoku2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Sudoku2/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Sudoku2/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Sudoku2/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Sudoku2/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Sudoku2/CMakeLists.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Sudoku2/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NQueen/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/../NQueen/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Sudoku2/hint.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hint.h" beforeDir="false" afterPath="$PROJECT_DIR$/hint.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Sudoku2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Sudoku2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Sudoku2/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Sudoku2/CMakeLists.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +82,12 @@
       <workItem from="1663801912142" duration="6759000" />
       <workItem from="1663857162237" duration="2000" />
       <workItem from="1663857596916" duration="19108000" />
-      <workItem from="1663884180425" duration="3614000" />
+      <workItem from="1663884180425" duration="3988000" />
+      <workItem from="1663888288858" duration="480000" />
+      <workItem from="1663888775550" duration="5000" />
+      <workItem from="1663888961760" duration="11000" />
+      <workItem from="1663889181731" duration="83000" />
+      <workItem from="1663889304480" duration="2213000" />
     </task>
     <task id="LOCAL-00001" summary="add sudoku problem">
       <created>1663730336742</created>
