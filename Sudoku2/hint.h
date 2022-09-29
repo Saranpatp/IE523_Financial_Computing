@@ -57,8 +57,8 @@ class Sudoku
 public:
     void read_puzzle(int argc, char * const argv[]){
         int value;
-//        ifstream input_file(argv[1]);
-        ifstream input_file("input5.txt");
+        ifstream input_file(argv[1]);
+//        ifstream input_file("input5.txt");
         if (input_file.is_open()){
             for (int i = 0; i < 9; i++){
                 for (int j = 0; j < 9; j++){
