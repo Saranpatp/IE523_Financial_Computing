@@ -100,7 +100,7 @@ public:
         }
     }
 
-    bool isPuzzleSloved(int& row, int& col){
+    bool isPuzzleSloved(int& row, int& col){ // This will move row and col forward if the puzzle[row][col] == 0
         for(row = 0; row < 9;row++)
             for (col = 0; col < 9; col++)
                 if (puzzle[row][col] == 0) return false;
@@ -110,7 +110,7 @@ public:
     bool Solve(int row, int col)
     {
         if(isPuzzleSloved(row,col)) return true;
-        for (int k = 1; k <= 9 ; k++){
+        for (int k = 1; k <= 9 ; k++){ // Try all the possible number in the puzzel[row][col]
 
             if (isBoard_valid(row,col,k) &&
                 positive_diagonals_valid(row,col,k) &&

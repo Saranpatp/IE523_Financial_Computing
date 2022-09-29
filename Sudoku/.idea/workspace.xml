@@ -18,7 +18,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0a9c50fb-0cad-4ccb-a319-5ac03166046e" name="Changes" comment="k">
-      <change beforePath="$PROJECT_DIR$/../Sudoku2/hint.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Sudoku2/hint.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hint.h" beforeDir="false" afterPath="$PROJECT_DIR$/hint.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +90,8 @@
       <workItem from="1663961026563" duration="3019000" />
       <workItem from="1664062514674" duration="17000" />
       <workItem from="1664115868525" duration="776000" />
-      <workItem from="1664411938741" duration="9048000" />
+      <workItem from="1664411938741" duration="9252000" />
+      <workItem from="1664462471486" duration="99000" />
     </task>
     <task id="LOCAL-00001" summary="add sudoku problem">
       <created>1663730336742</created>
