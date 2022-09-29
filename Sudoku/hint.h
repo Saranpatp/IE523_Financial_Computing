@@ -66,7 +66,7 @@ public:
                     puzzle[i][j] = value;
                     if (value != 0) {
                         if (posDiagMap[i+j].find(value) != posDiagMap[i+j].end()) {
-                            cout << "The question is invalid diagonally "<<endl;
+                            cout << "Err: The question is invalid diagonally!"<<endl;
                             return;
                         }
                         posDiagMap[i+j].insert(value);
