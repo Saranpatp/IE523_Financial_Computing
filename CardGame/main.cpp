@@ -7,13 +7,13 @@ map<pair<int,int>,double> cardValues;
 
 double value(int nred, int nblack){
     auto it = cardValues.find({nred,nblack});
-    if (it != cardValues.end()) return it->second;
+    if (it != cardValues.end()) return cardValues[{nred,nblack}];
 
     double redProb = nred/(nred+nblack);
     double blackProb = nblack/(nred+nblack);
 
-    if (nblack == 0 && nred ==1) return 1;
-    if (nred == 0 && nblack ==1) return -1;
+    if (nblack == 0 ) return nred;
+    if (nred == 0) return -nblack;
 
     double curVal= redProb*value(nred-1,nblack)+blackProb* value(nred,nblack-1);
     cardValues[{nred,nblack}] = max(curVal,(double) (nblack - nred));
