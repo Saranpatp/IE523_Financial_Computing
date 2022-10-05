@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-
+#include <map>
 using namespace std;
 
 class stable_marriage_instance
@@ -19,6 +19,7 @@ class stable_marriage_instance
     int anybody_free(vector <bool> my_array)
     {
         // fill the necessary code for this function
+        return false;
     }
 
     // private member function: if index1 is ranked higher than index2
@@ -54,6 +55,29 @@ class stable_marriage_instance
     // private member function: reads data
     void read_data(int argc, const char * argv[])
     {
+        // testing files
+        ifstream input_file("input.txt");
+        //input men
+        int input_value;
+        if (input_file.is_open()){
+            input_file >> input_value;
+            no_of_couples = input_value;
+            //input men
+            for (int i = 0; i<no_of_couples; i++){
+                for (int j = 0; j < no_of_couples; j++){
+                    input_file >> input_value;
+                    Preference_of_men[i].push_back(input_value);
+                }
+            }
+            //input women
+            for (int i = 0; i<no_of_couples; i++){
+                for (int j = 0; j < no_of_couples; j++){
+                    input_file >> input_value;
+                    Preference_of_women[i].push_back(input_value);
+                }
+            }
+        }
+
         // fill the necessary code here.  The first entry in the input
         // file is the #couples, followed by the preferences of the men
         // and preferences of the women.  Keep in mind all indices start

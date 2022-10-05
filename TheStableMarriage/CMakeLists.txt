@@ -3,4 +3,4 @@ project(TheStableMarriage)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(TheStableMarriage main.cpp marriage.h)
+add_executable(TheStableMarriage main.cpp)
