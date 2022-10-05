@@ -100,29 +100,27 @@ class stable_marriage_instance
         cout << "Preferences of Men" << endl;
         cout << "------------------" << endl;
         // iterated men preference
-        for (int i; i<Preference_of_men.size(); i++){
-            cout << "Preferences of Men"<< endl;
-            cout << "------------------" << endl;
+        for (int i = 0; i < Preference_of_men.size(); i++){
             cout << "(" << i << "): ";
-            for (int j; j<Preference_of_men[i].size(); j++){
+            for (int j = 0; j<Preference_of_men[i].size(); j++){
                 cout << Preference_of_men[i][j] <<" ";
             }
             cout << endl;
         }
         // iterated women preference
-        for (int i; i<Preference_of_women.size(); i++){
-            cout << "Preferences of Women"<< endl;
-            cout << "------------------" << endl;
+        cout << "Preferences of Women"<< endl;
+        cout << "--------------------" << endl;
+        for (int i = 0; i<Preference_of_women.size(); i++){
             cout << "(" << i << "): ";
-            for (int j; j<Preference_of_women[i].size(); j++){
+            for (int j = 0; j<Preference_of_women[i].size(); j++){
                 cout << Preference_of_women[i][j] <<" ";
             }
             cout << endl;
         }
         cout << "Matching for Men" <<endl;
-        for (int i; i<match_for_men.size(); i++) cout << "Man: "<<i<< " -> Woman: "<< match_for_men[i];
+        for (int i = 0; i<match_for_men.size(); i++) cout << "Man: "<<i<< " -> Woman: "<< match_for_men[i] << endl;
         cout << "Matching for Women" << endl;
-        for (int i; i<match_for_women.size(); i++) cout << "Woman: "<<i<< " -> Man: "<< match_for_women[i];
+        for (int i = 0; i<match_for_women.size(); i++) cout << "Woman: "<<i<< " -> Man: "<< match_for_women[i] << endl;
 
     }
 
