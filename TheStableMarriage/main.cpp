@@ -40,15 +40,20 @@ class stable_marriage_instance
         int man_index, woman_index;
 
         // initializing everything
-        for (int i= 0; i < no_of_couples; i++)
-        {
-            // do the necessary initialization here
+        for (int i= 0; i < no_of_couples; i++){
+            is_man_free[i] = 1;
+            is_woman_free[i] = 1;
+            vector<bool> currMan_proposed_to_this_woman;
+            for (int j = 0; j < no_of_couples ; j++) {
+                currMan_proposed_to_this_woman.push_back(0);
+            }
+            has_this_man_proposed_to_this_woman.push_back(currMan_proposed_to_this_woman);
         }
 
         // Gale-Shapley Algorithm
         while ( (man_index = anybody_free(is_man_free)) >= 0)
         {
-            // fill the necessary code here
+
         }
     }
 
@@ -60,6 +65,7 @@ class stable_marriage_instance
         // and preferences of the women.  Keep in mind all indices start
         // from 0.
 
+//        ifstream input_file(argv[1]);
         // testing files
         ifstream input_file("input.txt");
         //input men
