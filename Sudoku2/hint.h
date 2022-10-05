@@ -70,6 +70,13 @@ public:
                             return;
                         }
                         posDiagMap[i+j].insert(value);
+                        //check minimal diff
+                        if (i-1>=0 && j+1<9 && puzzle[i-1][j+1] != 0){
+                            if (abs(value - puzzle[i-1][j+1]) < 4) {
+                                cout << "Err: The question is invalid minimum difference!"<<endl;
+                                return;
+                            }
+                        }
                     }
                 }
             }

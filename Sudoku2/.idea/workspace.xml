@@ -19,6 +19,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7805ed08-ed50-4087-a39b-30368835ae1d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../Sudoku/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Sudoku/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Sudoku/hint.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Sudoku/hint.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hint.h" beforeDir="false" afterPath="$PROJECT_DIR$/hint.h" afterDir="false" />
     </list>
@@ -83,6 +84,7 @@
       <workItem from="1663968648783" duration="1170000" />
       <workItem from="1664062502612" duration="11000" />
       <workItem from="1664420469852" duration="1009000" />
+      <workItem from="1664933795426" duration="18000" />
     </task>
     <servers />
   </component>
