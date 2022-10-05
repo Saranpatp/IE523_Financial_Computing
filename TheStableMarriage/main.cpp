@@ -27,7 +27,7 @@ class stable_marriage_instance
     // it returns "false"
     bool rank_check (vector <int> my_array, int index1, int index2)
     {
-        // fill the necessary code for this function
+        return my_array[index1] < my_array[index2]; // rank higher 0 is the higest rank
     }
 
     // private member function: implements the Gale-Shapley algorithm
@@ -55,6 +55,11 @@ class stable_marriage_instance
     // private member function: reads data
     void read_data(int argc, const char * argv[])
     {
+        // fill the necessary code here.  The first entry in the input
+        // file is the #couples, followed by the preferences of the men
+        // and preferences of the women.  Keep in mind all indices start
+        // from 0.
+
         // testing files
         ifstream input_file("input.txt");
         //input men
@@ -66,26 +71,27 @@ class stable_marriage_instance
             for (int i = 0; i<no_of_couples; i++){
                 //init the match vector for men
                 match_for_men.push_back(-1);
+                vector<int> currMenPref;
                 for (int j = 0; j < no_of_couples; j++){
                     input_file >> input_value;
-                    Preference_of_men[i].push_back(input_value);
+                    currMenPref.push_back(input_value);
                 }
+                Preference_of_men.push_back(currMenPref);
             }
             //input women
             for (int i = 0; i<no_of_couples; i++){
                 //init the match vector for women
                 match_for_women.push_back(-1);
+                vector<int> currWomenPref;
                 for (int j = 0; j < no_of_couples; j++){
                     input_file >> input_value;
-                    Preference_of_women[i].push_back(input_value);
+                    currWomenPref.push_back(input_value);
                 }
+                Preference_of_women.push_back(currWomenPref);
             }
         }
+        print_soln();
 
-        // fill the necessary code here.  The first entry in the input
-        // file is the #couples, followed by the preferences of the men
-        // and preferences of the women.  Keep in mind all indices start
-        // from 0.
     }
 
     // private member function: print solution
