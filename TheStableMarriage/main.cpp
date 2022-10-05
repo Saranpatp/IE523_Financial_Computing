@@ -18,7 +18,7 @@ class stable_marriage_instance
     // if no one is free it returns a -1.
     int anybody_free(vector <bool> my_array)
     {
-        // fill the necessary code for this function
+        for (int i = 0; i<my_array.size(); i++) if (my_array[i]) return true;
         return false;
     }
 
@@ -64,6 +64,8 @@ class stable_marriage_instance
             no_of_couples = input_value;
             //input men
             for (int i = 0; i<no_of_couples; i++){
+                //init the match vector for men
+                match_for_men.push_back(-1);
                 for (int j = 0; j < no_of_couples; j++){
                     input_file >> input_value;
                     Preference_of_men[i].push_back(input_value);
@@ -71,6 +73,8 @@ class stable_marriage_instance
             }
             //input women
             for (int i = 0; i<no_of_couples; i++){
+                //init the match vector for women
+                match_for_women.push_back(-1);
                 for (int j = 0; j < no_of_couples; j++){
                     input_file >> input_value;
                     Preference_of_women[i].push_back(input_value);
@@ -87,7 +91,33 @@ class stable_marriage_instance
     // private member function: print solution
     void print_soln()
     {
-        // write the appropriate code here
+        cout << "Preferences of Men" << endl;
+        cout << "------------------" << endl;
+        // iterated men preference
+        for (int i; i<Preference_of_men.size(); i++){
+            cout << "Preferences of Men"<< endl;
+            cout << "------------------" << endl;
+            cout << "(" << i << "): ";
+            for (int j; j<Preference_of_men[i].size(); j++){
+                cout << Preference_of_men[i][j] <<" ";
+            }
+            cout << endl;
+        }
+        // iterated women preference
+        for (int i; i<Preference_of_women.size(); i++){
+            cout << "Preferences of Women"<< endl;
+            cout << "------------------" << endl;
+            cout << "(" << i << "): ";
+            for (int j; j<Preference_of_women[i].size(); j++){
+                cout << Preference_of_women[i][j] <<" ";
+            }
+            cout << endl;
+        }
+        cout << "Matching for Men" <<endl;
+        for (int i; i<match_for_men.size(); i++) cout << "Man: "<<i<< " -> Woman: "<< match_for_men[i];
+        cout << "Matching for Women" << endl;
+        for (int i; i<match_for_women.size(); i++) cout << "Woman: "<<i<< " -> Man: "<< match_for_women[i];
+
     }
 
 public:
