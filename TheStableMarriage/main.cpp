@@ -18,8 +18,8 @@ class stable_marriage_instance
     // if no one is free it returns a -1.
     int anybody_free(vector <bool> my_array)
     {
-        for (int i = 0; i<my_array.size(); i++) if (my_array[i]) return true;
-        return false;
+        for (int i = 0; i<my_array.size(); i++) return i;
+        return -1;
     }
 
     // private member function: if index1 is ranked higher than index2
@@ -45,7 +45,7 @@ class stable_marriage_instance
             is_woman_free[i] = 1;
             vector<bool> currMan_proposed_to_this_woman;
             for (int j = 0; j < no_of_couples ; j++) {
-                currMan_proposed_to_this_woman.push_back(0);
+                currMan_proposed_to_this_woman.push_back(-1);
             }
             has_this_man_proposed_to_this_woman.push_back(currMan_proposed_to_this_woman);
         }
@@ -53,7 +53,8 @@ class stable_marriage_instance
         // Gale-Shapley Algorithm
         while ( (man_index = anybody_free(is_man_free)) >= 0)
         {
-
+            for (woman_index = 0; woman_index < Preference_of_men[man_index].size();woman_index++){
+            }
         }
     }
 
