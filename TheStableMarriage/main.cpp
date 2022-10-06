@@ -84,8 +84,6 @@ class stable_marriage_instance
                     //set man match with woman
                     match_for_men[man_index] = woman_index;
                     match_for_women[woman_index] = man_index;
-                }else{
-                    continue;
                 }
             }
         }
