@@ -18,7 +18,7 @@ class stable_marriage_instance
     // if no one is free it returns a -1.
     int anybody_free(vector <bool> my_array)
     {
-        for (int i = 0; i<my_array.size(); i++) return i;
+        for (int i = 0; i<my_array.size(); i++) if (my_array[i]) return i;
         return -1;
     }
 
@@ -27,7 +27,11 @@ class stable_marriage_instance
     // it returns "false"
     bool rank_check (vector <int> my_array, int index1, int index2)
     {
-        return my_array[index1] < my_array[index2]; // rank higher 0 is the higest rank
+        for (int i; i<my_array.size();i++){
+            if (index1 == my_array[i]) return true;
+            if (index2 == my_array[i]) return false;
+        }
+        return false; // rank higher 0 is the higest rank
     }
 
     // private member function: implements the Gale-Shapley algorithm
@@ -41,11 +45,11 @@ class stable_marriage_instance
 
         // initializing everything
         for (int i= 0; i < no_of_couples; i++){
-            is_man_free[i] = 1;
-            is_woman_free[i] = 1;
+            is_man_free.push_back(1);
+            is_woman_free.push_back(1);
             vector<bool> currMan_proposed_to_this_woman;
             for (int j = 0; j < no_of_couples ; j++) {
-                currMan_proposed_to_this_woman.push_back(-1);
+                currMan_proposed_to_this_woman.push_back(0);
             }
             has_this_man_proposed_to_this_woman.push_back(currMan_proposed_to_this_woman);
         }
@@ -53,7 +57,36 @@ class stable_marriage_instance
         // Gale-Shapley Algorithm
         while ( (man_index = anybody_free(is_man_free)) >= 0)
         {
-            for (woman_index = 0; woman_index < Preference_of_men[man_index].size();woman_index++){
+            if (!is_man_free[man_index]) continue;
+
+            for (int currManPrefIndx = 0; currManPrefIndx < Preference_of_men[man_index].size();currManPrefIndx++) {
+                woman_index = Preference_of_men[man_index][currManPrefIndx];
+                if (has_this_man_proposed_to_this_woman[man_index][woman_index]) continue; // if he already purpose this woman
+                else break;
+            }
+            //set that this man has proposed
+            has_this_man_proposed_to_this_woman[man_index][woman_index] = 1;
+            if (is_woman_free[woman_index]){
+                //engage
+                //set woman and man not free
+                is_woman_free[woman_index] = 0;
+                is_man_free[man_index] = 0;
+                //set man match with woman
+                match_for_men[man_index] = woman_index;
+                match_for_women[woman_index] = man_index;
+            }else {
+                if (rank_check(Preference_of_women[woman_index],man_index,match_for_women[woman_index])){
+                    //set dumped man is_free to true;
+                    is_man_free[match_for_women[woman_index]] = 1;
+                    //set woman and man not free
+                    is_woman_free[woman_index] = 0;
+                    is_man_free[man_index] = 0;
+                    //set man match with woman
+                    match_for_men[man_index] = woman_index;
+                    match_for_women[woman_index] = man_index;
+                }else{
+                    continue;
+                }
             }
         }
     }
@@ -66,9 +99,9 @@ class stable_marriage_instance
         // and preferences of the women.  Keep in mind all indices start
         // from 0.
 
-//        ifstream input_file(argv[1]);
+        ifstream input_file(argv[1]);
         // testing files
-        ifstream input_file("input.txt");
+//        ifstream input_file("input2.txt");
         //input men
         int input_value;
         if (input_file.is_open()){
@@ -97,8 +130,6 @@ class stable_marriage_instance
                 Preference_of_women.push_back(currWomenPref);
             }
         }
-        print_soln();
-
     }
 
     // private member function: print solution
@@ -106,6 +137,8 @@ class stable_marriage_instance
     {
         cout << "Preferences of Men" << endl;
         cout << "------------------" << endl;
+        cout << endl;
+
         // iterated men preference
         for (int i = 0; i < Preference_of_men.size(); i++){
             cout << "(" << i << "): ";
@@ -115,8 +148,11 @@ class stable_marriage_instance
             cout << endl;
         }
         // iterated women preference
+        cout << endl;
         cout << "Preferences of Women"<< endl;
         cout << "--------------------" << endl;
+        cout << endl;
+
         for (int i = 0; i<Preference_of_women.size(); i++){
             cout << "(" << i << "): ";
             for (int j = 0; j<Preference_of_women[i].size(); j++){
@@ -124,9 +160,14 @@ class stable_marriage_instance
             }
             cout << endl;
         }
+        cout << endl;
         cout << "Matching for Men" <<endl;
+        cout << endl;
+
         for (int i = 0; i<match_for_men.size(); i++) cout << "Man: "<<i<< " -> Woman: "<< match_for_men[i] << endl;
+        cout << endl;
         cout << "Matching for Women" << endl;
+        cout << endl;
         for (int i = 0; i<match_for_women.size(); i++) cout << "Woman: "<<i<< " -> Man: "<< match_for_women[i] << endl;
 
     }
