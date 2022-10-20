@@ -5,9 +5,10 @@
 #include <string>
 #include <iomanip>
 #include <cmath>
+
 using namespace std;
 
-const double TOLERANCE = 1e-3;
+const double TOLERANCE = 1e-10;
 
 vector<double> presentValues;
 vector<int> maturities;
@@ -79,6 +80,65 @@ double calConvexity(double r, double maturity, vector<double> cf, double pv) {
     return res / pv;
 }
 
+/*
+* Optimize 
+*/
+
+void optimizePortfolio() {
+    // getting the cost function that needs to be minimized
+    vector<double> cost;
+    for (int i = 0; i < nCfs; i++) {
+        cost.push_back(-1 * convexities[i]);
+    }
+
+    // creating the "2 x (#cash-flows)"" constraint matrix
+    vector<vector<double>> A;
+    for (int i = 0; i < nCfs; i++) {
+        for (int j = 0; j < 2; j++) {
+
+        }
+    }
+
+    // Gurobi part
+    // Create an environment
+    cout << "****************************************************" << endl;
+    try {
+        GRBEnv env = GRBEnv(true);
+        env.set("LogFile", "PortfolioOptimization.log");
+        env.start();
+
+        // Create an empty model
+        GRBModel model = GRBModel(env);
+        model.optimize();
+        int optimistatus = model.get(GRB_IntAttr_Status);
+        if (optimistatus == GRB_INF_OR_UNBD) {
+            double objval = model.get(GRB_DoubleAttr_ObjVal);
+            cout << "Optimal objective " << objval << endl;
+            cout << "Optimal Values : " << endl;
+            GRBVar* vars = model.getVars();
+            int i = 0;
+            for (GRBVar* p = vars; i < model.get(GRB_IntAttr_NumVars); i++, p++)
+                printf("%s = %f \n", p->get(GRB_StringAttr_VarName).c_str(), p->get(GRB_DoubleAttr_X));
+        }
+        else if (optimistatus == GRB_INFEASIBLE) {
+            cout << "Model is infeasible" << endl;
+            model.computeIIS();
+            model.write("model.ilp");
+        }
+        else {
+            cout << "Optimization was stopped with status = " << optimistatus << endl;
+        }
+    }
+    catch (GRBException e) {
+        cout << "Error code = " << e.getErrorCode() << endl;
+        cout << e.getMessage() << endl;
+    }
+    catch (...) {
+        cout << "Error during optimization" << endl;
+    }
+    
+}
+
 void readData(int argc, char* const argv[]) {
     int maturity;
     double curPV, cf;
@@ -108,6 +168,7 @@ void readData(int argc, char* const argv[]) {
         inputFile >> debtDuration;
     }
     printResult();
+    optimizePortfolio();
 }
 
 int main(int argc, char* argv[])
@@ -115,51 +176,3 @@ int main(int argc, char* argv[])
     readData(argc, argv);
     return 0;
 }
-/*
-void testGurobi() {
-    try {
-
-        // Create an environment
-        GRBEnv env = GRBEnv(true);
-        env.set("LogFile", "mip1.log");
-        env.start();
-
-        // Create an empty model
-        GRBModel model = GRBModel(env);
-
-        // Create variables
-        GRBVar x = model.addVar(0.0, 1.0, 0.0, GRB_BINARY, "x");
-        GRBVar y = model.addVar(0.0, 1.0, 0.0, GRB_BINARY, "y");
-        GRBVar z = model.addVar(0.0, 1.0, 0.0, GRB_BINARY, "z");
-
-        // Set objective: maximize x + y + 2 z
-        model.setObjective(x + y + 2 * z, GRB_MAXIMIZE);
-
-        // Add constraint: x + 2 y + 3 z <= 4
-        model.addConstr(x + 2 * y + 3 * z <= 4, "c0");
-
-        // Add constraint: x + y >= 1
-        model.addConstr(x + y >= 1, "c1");
-
-        // Optimize model
-        model.optimize();
-
-        cout << x.get(GRB_StringAttr_VarName) << " "
-            << x.get(GRB_DoubleAttr_X) << endl;
-        cout << y.get(GRB_StringAttr_VarName) << " "
-            << y.get(GRB_DoubleAttr_X) << endl;
-        cout << z.get(GRB_StringAttr_VarName) << " "
-            << z.get(GRB_DoubleAttr_X) << endl;
-
-        cout << "Obj: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
-
-    }
-    catch (GRBException e) {
-        cout << "Error code = " << e.getErrorCode() << endl;
-        cout << e.getMessage() << endl;
-    }
-    catch (...) {
-        cout << "Exception during optimization" << endl;
-    }
-}
-*/
