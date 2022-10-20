@@ -7,12 +7,15 @@
 #include <cmath>
 using namespace std;
 
+const double TOLERANCE = 1e-3;
+
 vector<double> presentValues;
 vector<int> maturities;
 vector<vector<double>> cashFlows;
 vector<double> convexities;
 vector<double> durations;
 vector<double> ytms;
+
 double debt;
 int debtDuration;
 
@@ -23,18 +26,61 @@ void printResult() {
     cout << "Numnber of Cash flow: " << nCfs << endl;
     for (int i = 0; i < nCfs; i++) {
         cout << "----------------------------------------------------" << endl;
-        cout << "Cash Flow #" << i << endl;
+        cout << "Cash Flow #" << i + 1 << endl;
         cout << "Price = " << presentValues[i] << endl;
         cout << "Maturity = " << maturities[i] << endl;
-        //cout << "Yield to Matruity = " << ytms[i] << endl;
-        //cout << "Duration = " << durations[i] << endl;
-        //cout << "Convexity = " << convexities[i] << endl;
+        cout << "Yield to Matruity = " << ytms[i] << endl;
+        cout << "Duration = " << durations[i] << endl;
+        cout << "Convexity = " << convexities[i] << endl;
     }
     // add print gurobi part here
 }
 
+
+double f(double r, double maturity, vector<double> cf, double pv) { //Newton Raphson function
+    double discountedCf = 0;
+    for (int t = 1; t <= (int) maturity; t++) {
+        double power = maturity - (double) t;
+        discountedCf += cf[t-1] * pow(1+r,power);// cf start at 0 so use t-1
+    }
+    double res = pv * pow((1+r), maturity) - discountedCf;
+    return res;
+}
+
+double df(double r, double maturity, vector<double> cf, double pv) {
+    double cumSum = 0;
+    for (int t = 1; t <= (int) maturity - 1; t++) {
+        cumSum += cf[t - 1] *  (maturity - (double) t) * pow(1+r, maturity - (double)t - 1); // cf start at 0 so use t-1
+    }
+    double res = (maturity * pv * pow(1 + r, maturity - 1)) - cumSum;
+    return res;
+}
+
+double solveYtm(double r, double maturity, vector<double> cf, double pv) { // solve yield marturity using Newton-Raphson Method
+    while (double error = abs(f(r, maturity, cf, pv)) > TOLERANCE) {
+        r = r - f(r, maturity, cf, pv) / df(r, maturity, cf, pv); // Raphson function
+    }
+    return r;
+}
+
+double calDuration(double r, double maturity, vector<double> cf, double pv) {
+    double res = 0;
+    for (int t = 1; t <= maturity; t++) {
+        res += (cf[t - 1] / pow(1 + r, t) * t) / pv;
+    }
+    return res;
+}
+
+double calConvexity(double r, double maturity, vector<double> cf, double pv) {
+    double res = 0;
+    for (int t = 1; t <= maturity; t++) {
+        res += (t*(t + 1) * cf[t - 1])/pow(1 + r,t+2);
+    }
+    return res / pv;
+}
+
 void readData(int argc, char* const argv[]) {
-    int value, maturity;
+    int maturity;
     double curPV, cf;
     //ifstream inputFile(argv[1]);
     // cout << "Input File : " << argv[1] <<endl;
@@ -53,31 +99,16 @@ void readData(int argc, char* const argv[]) {
                 tmpCf.push_back(cf);
             }
             cashFlows.push_back(tmpCf);
+            double r = solveYtm(0, (double)maturity, tmpCf, curPV);
+            ytms.push_back(r); // calculate ytm
+            durations.push_back(calDuration(r, (double)maturity, tmpCf, curPV));
+            convexities.push_back(calConvexity(r, (double)maturity, tmpCf, curPV));
         }
         inputFile >> debt;
         inputFile >> debtDuration;
     }
     printResult();
 }
-
-double f(double r, int maturity, vector<double> cf, double pv) { //Newton Raphson function
-    double discountedCf;
-    for (int t = 0; t < maturity; t++) {
-        double power = (double) maturity - (double) t;
-        discountedCf += cf[t] * pow(1+r,power);
-    }
-    double res = pow(pv*(1+r),(maturity-1));
-}
-
-
-//double calYtm() { //calculate yield to maturity
-//    for (int i; i < )
-//}
-
-
-
-
-
 
 int main(int argc, char* argv[])
 {    
