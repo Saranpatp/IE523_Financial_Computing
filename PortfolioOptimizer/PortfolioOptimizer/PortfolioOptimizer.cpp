@@ -3,28 +3,47 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <direct.h>
+#include <iomanip>
+#include <cmath>
 using namespace std;
 
 vector<double> presentValues;
 vector<int> maturities;
 vector<vector<double>> cashFlows;
+vector<double> convexities;
+vector<double> durations;
+vector<double> ytms;
+double debt;
+int debtDuration;
 
+int nCfs; //number of Cash flows
 
-void read_data(int argc, char* const argv[]) {
-    int value, nCfs, maturity;
+void printResult() {
+    cout << "We owed " << debt << " in " << debtDuration << " years" << endl;
+    cout << "Numnber of Cash flow: " << nCfs << endl;
+    for (int i = 0; i < nCfs; i++) {
+        cout << "----------------------------------------------------" << endl;
+        cout << "Cash Flow #" << i << endl;
+        cout << "Price = " << presentValues[i] << endl;
+        cout << "Maturity = " << maturities[i] << endl;
+        //cout << "Yield to Matruity = " << ytms[i] << endl;
+        //cout << "Duration = " << durations[i] << endl;
+        //cout << "Convexity = " << convexities[i] << endl;
+    }
+    // add print gurobi part here
+}
+
+void readData(int argc, char* const argv[]) {
+    int value, maturity;
     double curPV, cf;
     //ifstream inputFile(argv[1]);
+    // cout << "Input File : " << argv[1] <<endl;
     ifstream inputFile("input1.txt");
     if (inputFile.is_open()) {
         inputFile >> nCfs; //number of CFs
         //init values
         for (int i = 0; i < nCfs; i++) {
             inputFile >> curPV;
-            cout << curPV << endl;
             presentValues.push_back(curPV);
             inputFile >> maturity;
             maturities.push_back(maturity);
@@ -35,13 +54,34 @@ void read_data(int argc, char* const argv[]) {
             }
             cashFlows.push_back(tmpCf);
         }
+        inputFile >> debt;
+        inputFile >> debtDuration;
     }
+    printResult();
 }
+
+double f(double r, int maturity, vector<double> cf, double pv) { //Newton Raphson function
+    double discountedCf;
+    for (int t = 0; t < maturity; t++) {
+        double power = (double) maturity - (double) t;
+        discountedCf += cf[t] * pow(1+r,power);
+    }
+    double res = pow(pv*(1+r),(maturity-1));
+}
+
+
+//double calYtm() { //calculate yield to maturity
+//    for (int i; i < )
+//}
+
+
+
+
 
 
 int main(int argc, char* argv[])
 {    
-    read_data(argc, argv);
+    readData(argc, argv);
     return 0;
 }
 /*
