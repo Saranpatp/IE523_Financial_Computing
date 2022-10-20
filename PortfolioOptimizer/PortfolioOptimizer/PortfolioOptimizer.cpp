@@ -1,23 +1,51 @@
-/* Copyright 2022, Gurobi Optimization, LLC */
-
-/* This example formulates and solves the following simple MIP model:
-
-     maximize    x +   y + 2 z
-     subject to  x + 2 y + 3 z <= 4
-                 x +   y       >= 1
-                 x, y, z binary
-*/
-
 #include "gurobi_c++.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <string>
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <direct.h>
 using namespace std;
 
-int
-main(int   argc,
-    char* argv[])
-{
+vector<double> presentValues;
+vector<int> maturities;
+vector<vector<double>> cashFlows;
+
+
+void read_data(int argc, char* const argv[]) {
+    int value, nCfs, maturity;
+    double curPV, cf;
+    //ifstream inputFile(argv[1]);
+    ifstream inputFile("input1.txt");
+    if (inputFile.is_open()) {
+        inputFile >> nCfs; //number of CFs
+        //init values
+        for (int i = 0; i < nCfs; i++) {
+            inputFile >> curPV;
+            cout << curPV << endl;
+            presentValues.push_back(curPV);
+            inputFile >> maturity;
+            maturities.push_back(maturity);
+            vector<double> tmpCf;
+            for (int j = 0; j < maturity; j++) {
+                inputFile >> cf;
+                tmpCf.push_back(cf);
+            }
+            cashFlows.push_back(tmpCf);
+        }
+    }
+}
+
+
+int main(int argc, char* argv[])
+{    
+    read_data(argc, argv);
+    return 0;
+}
+/*
+void testGurobi() {
     try {
 
         // Create an environment
@@ -62,6 +90,5 @@ main(int   argc,
     catch (...) {
         cout << "Exception during optimization" << endl;
     }
-
-    return 0;
 }
+*/
