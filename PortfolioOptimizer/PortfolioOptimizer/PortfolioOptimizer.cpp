@@ -14,7 +14,7 @@ const double TOLERANCE = 1e-10;
 vector<int> maturities;
 vector<double> presentValues,convexities, durations, ytms;
 
-double debt, debtDuration;
+double debt, debtDuration, debtpv;
 int nCfs;
 
 void printResult() {
@@ -77,7 +77,7 @@ double calConvexity(double r, double maturity, vector<double> cf, double pv) {
 void optimizePortfolio() {
     // Gurobi part
     // Create an environment
-    vector<double> immuneDollar = {500,1000, debt};
+    vector<double> immuneDollar = {500, debtpv, debt};
     cout << "****************************************************" << endl;
     try {
         GRBEnv env = GRBEnv(true);
@@ -127,6 +127,7 @@ void optimizePortfolio() {
             vector<pair<double, int>> solutions;
             for (GRBVar* p = vars; i < model.get(GRB_IntAttr_NumVars); i++, p++)
                 if (p->get(GRB_DoubleAttr_X) > 0) {
+
                     printf("$%f of Cash-Flow %d \n", p->get(GRB_DoubleAttr_X), i + 1);
                     solutions.push_back({ p->get(GRB_DoubleAttr_X),i + 1 });
                 }
@@ -188,6 +189,15 @@ void readData(int argc, char* const argv[]) {
     }
 
     printResult();
+    // calculate pv of the debt using r as avg rate
+    double avRate = 0;
+    for (int i = 0; i < nCfs; i++) {
+        avRate += ytms[i];
+    }
+    avRate = avRate / nCfs;
+    
+    debtpv = debt/pow(1+avRate,debtDuration);
+
     // run gurobi optimization
     optimizePortfolio();
 }
