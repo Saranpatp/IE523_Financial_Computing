@@ -1,0 +1,48 @@
+
+Gurobi 9.5.2 (win64, C++) logging started Thu Oct 20 17:22:53 2022
+
+Set parameter Username
+Set parameter LogFile to value "Simple_LP_Example.log"
+Academic license - for non-commercial use only - expires 2023-10-06
+Gurobi Optimizer version 9.5.2 build v9.5.2rc0 (win64)
+Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
+Optimize a model with 2 rows, 2 columns and 4 nonzeros
+Model fingerprint: 0x0a3fbab0
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+00]
+  Objective range  [5e+00, 7e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [6e+00, 1e+01]
+Presolve time: 0.00s
+Presolved: 2 rows, 2 columns, 4 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    1.2000000e+31   3.250000e+30   1.200000e+01      0s
+       1    2.1000000e+01   0.000000e+00   0.000000e+00      0s
+
+Solved in 1 iterations and 0.01 seconds (0.00 work units)
+Optimal objective  2.100000000e+01
+
+Gurobi 9.5.2 (win64, C++) logging started Thu Oct 20 18:11:31 2022
+
+Set parameter Username
+Set parameter LogFile to value "Simple_LP_Example.log"
+Academic license - for non-commercial use only - expires 2023-10-06
+Gurobi Optimizer version 9.5.2 build v9.5.2rc0 (win64)
+Thread count: 4 physical cores, 8 logical processors, using up to 8 threads
+Optimize a model with 2 rows, 2 columns and 4 nonzeros
+Model fingerprint: 0x0a3fbab0
+Coefficient statistics:
+  Matrix range     [1e+00, 4e+00]
+  Objective range  [5e+00, 7e+00]
+  Bounds range     [0e+00, 0e+00]
+  RHS range        [6e+00, 1e+01]
+Presolve time: 0.00s
+Presolved: 2 rows, 2 columns, 4 nonzeros
+
+Iteration    Objective       Primal Inf.    Dual Inf.      Time
+       0    1.2000000e+31   3.250000e+30   1.200000e+01      0s
+       1    2.1000000e+01   0.000000e+00   0.000000e+00      0s
+
+Solved in 1 iterations and 0.00 seconds (0.00 work units)
+Optimal objective  2.100000000e+01

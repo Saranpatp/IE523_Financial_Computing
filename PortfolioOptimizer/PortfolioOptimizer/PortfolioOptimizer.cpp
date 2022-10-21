@@ -5,22 +5,16 @@
 #include <string>
 #include <iomanip>
 #include <cmath>
-
+#include <sstream>
 using namespace std;
 
 const double TOLERANCE = 1e-10;
 
-vector<double> presentValues;
 vector<int> maturities;
-vector<vector<double>> cashFlows;
-vector<double> convexities;
-vector<double> durations;
-vector<double> ytms;
+vector<double> presentValues,convexities, durations, ytms;
 
-double debt;
-int debtDuration;
-
-int nCfs; //number of Cash flows
+double debt, avRate, debtDuration;
+int nCfs;
 
 void printResult() {
     cout << "We owed " << debt << " in " << debtDuration << " years" << endl;
@@ -34,7 +28,6 @@ void printResult() {
         cout << "Duration = " << durations[i] << endl;
         cout << "Convexity = " << convexities[i] << endl;
     }
-    // add print gurobi part here
 }
 
 
@@ -85,49 +78,68 @@ double calConvexity(double r, double maturity, vector<double> cf, double pv) {
 */
 
 void optimizePortfolio() {
-    // getting the cost function that needs to be minimized
-    vector<double> cost;
-    for (int i = 0; i < nCfs; i++) {
-        cost.push_back(-1 * convexities[i]);
-    }
-
-    // creating the "2 x (#cash-flows)"" constraint matrix
-    vector<vector<double>> A;
-    for (int i = 0; i < nCfs; i++) {
-        for (int j = 0; j < 2; j++) {
-
-        }
-    }
-
     // Gurobi part
     // Create an environment
     cout << "****************************************************" << endl;
     try {
         GRBEnv env = GRBEnv(true);
         env.set("LogFile", "PortfolioOptimization.log");
+        //env.set("LogToConsole", 0);
         env.start();
 
         // Create an empty model
         GRBModel model = GRBModel(env);
+        
+        // init variable
+        GRBVar* lambda = new GRBVar[nCfs]; // matrix of lambda that we want to find.
+        
+        for (int i = 0; i < nCfs; i++) {
+            lambda[i] = model.addVar(0.0, 1, 0.0, GRB_CONTINUOUS , "lambda_" + to_string(i)); // all lambdai > 0 and lambda < 1
+        }
+
+        //add linear constraint
+        GRBLinExpr le1 = 0; 
+        GRBLinExpr le2 = 0;
+        GRBLinExpr bConvex = 0;
+        for (int i = 0; i < nCfs; i++) {
+            le1 += lambda[i];
+            le2 += lambda[i] * durations[i];
+            bConvex += lambda[i] * convexities[i];
+        }
+        // set objective as optimize convexity
+        model.setObjective(bConvex, GRB_MAXIMIZE); 
+
+        model.addConstr(le1 == 1); // Sum of lambda ==1
+        model.addConstr(le2 == debtDuration); // Sum of lambda*D == N
+
         model.optimize();
-        int optimistatus = model.get(GRB_IntAttr_Status);
-        if (optimistatus == GRB_INF_OR_UNBD) {
+
+        int optimistatus = model.get(GRB_IntAttr_Status); // Check if it able to find solution or not  
+
+        cout << "****************************************************" << endl;
+
+        if (optimistatus == GRB_OPTIMAL) { // found the solution
+            //getting solution
             double objval = model.get(GRB_DoubleAttr_ObjVal);
-            cout << "Optimal objective " << objval << endl;
-            cout << "Optimal Values : " << endl;
+            printf("Largest Convexity we can get is %.3f \n",objval);
+            //cout << " " << setprecision(3) << objval << endl;
+            cout << "****************************************************" << endl;
+            cout << "To immunize against small changes in 'r' for each $1 of PV, you should buy" << endl;
             GRBVar* vars = model.getVars();
             int i = 0;
             for (GRBVar* p = vars; i < model.get(GRB_IntAttr_NumVars); i++, p++)
-                printf("%s = %f \n", p->get(GRB_StringAttr_VarName).c_str(), p->get(GRB_DoubleAttr_X));
+                if (p->get(GRB_DoubleAttr_X) > 0) printf("$%f of Cash-Flow %d \n", p->get(GRB_DoubleAttr_X), i+1);
+            
         }
         else if (optimistatus == GRB_INFEASIBLE) {
-            cout << "Model is infeasible" << endl;
+            printf("There is no portfolio that meets the duration constraint of %.1f years", debtDuration);
             model.computeIIS();
             model.write("model.ilp");
         }
         else {
             cout << "Optimization was stopped with status = " << optimistatus << endl;
         }
+        cout << "****************************************************" << endl;
     }
     catch (GRBException e) {
         cout << "Error code = " << e.getErrorCode() << endl;
@@ -137,14 +149,14 @@ void optimizePortfolio() {
         cout << "Error during optimization" << endl;
     }
     
-}
+}  
 
 void readData(int argc, char* const argv[]) {
     int maturity;
     double curPV, cf;
-    //ifstream inputFile(argv[1]);
-    // cout << "Input File : " << argv[1] <<endl;
-    ifstream inputFile("input1.txt");
+    ifstream inputFile(argv[1]);
+    cout << "Input File : " << argv[1] <<endl;
+    //ifstream inputFile("input1.txt");
     if (inputFile.is_open()) {
         inputFile >> nCfs; //number of CFs
         //init values
@@ -158,7 +170,6 @@ void readData(int argc, char* const argv[]) {
                 inputFile >> cf;
                 tmpCf.push_back(cf);
             }
-            cashFlows.push_back(tmpCf);
             double r = solveYtm(0, (double)maturity, tmpCf, curPV);
             ytms.push_back(r); // calculate ytm
             durations.push_back(calDuration(r, (double)maturity, tmpCf, curPV));
@@ -167,12 +178,18 @@ void readData(int argc, char* const argv[]) {
         inputFile >> debt;
         inputFile >> debtDuration;
     }
+
+    //Calculate debtpv value using avgRate from yield to maturities
+    for (int i = 0; i < nCfs; i++) avRate += ytms[i];
+    avRate = avRate / (double) nCfs;
+    double pvDebt = debt / pow(1 + avRate, (double) debtDuration);
     printResult();
+    // run gurobi optimization
     optimizePortfolio();
 }
 
 int main(int argc, char* argv[])
-{    
+{
     readData(argc, argv);
     return 0;
 }
