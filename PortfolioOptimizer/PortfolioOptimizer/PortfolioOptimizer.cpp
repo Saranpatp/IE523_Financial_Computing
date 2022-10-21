@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <cmath>
 #include <sstream>
+
 using namespace std;
 
 const double TOLERANCE = 1e-10;
@@ -13,18 +14,18 @@ const double TOLERANCE = 1e-10;
 vector<int> maturities;
 vector<double> presentValues,convexities, durations, ytms;
 
-double debt, avRate, debtDuration;
+double debt, debtDuration;
 int nCfs;
 
 void printResult() {
     cout << "We owed " << debt << " in " << debtDuration << " years" << endl;
-    cout << "Numnber of Cash flow: " << nCfs << endl;
+    cout << "Number of Cash flow: " << nCfs << endl;
     for (int i = 0; i < nCfs; i++) {
         cout << "----------------------------------------------------" << endl;
         cout << "Cash Flow #" << i + 1 << endl;
         cout << "Price = " << presentValues[i] << endl;
         cout << "Maturity = " << maturities[i] << endl;
-        cout << "Yield to Matruity = " << ytms[i] << endl;
+        cout << "Yield to Maturity = " << ytms[i] << endl;
         cout << "Duration = " << durations[i] << endl;
         cout << "Convexity = " << convexities[i] << endl;
     }
@@ -186,10 +187,6 @@ void readData(int argc, char* const argv[]) {
         inputFile >> debtDuration;
     }
 
-    //Calculate debtpv value using avgRate from yield to maturities
-    for (int i = 0; i < nCfs; i++) avRate += ytms[i];
-    avRate = avRate / (double) nCfs;
-    double pvDebt = debt / pow(1 + avRate,  debtDuration);
     printResult();
     // run gurobi optimization
     optimizePortfolio();
