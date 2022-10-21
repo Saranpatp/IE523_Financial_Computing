@@ -73,13 +73,10 @@ double calConvexity(double r, double maturity, vector<double> cf, double pv) {
     return res / pv;
 }
 
-/*
-* Optimize 
-*/
-
 void optimizePortfolio() {
     // Gurobi part
     // Create an environment
+    vector<double> immuneDollar = {500,1000, debt};
     cout << "****************************************************" << endl;
     try {
         GRBEnv env = GRBEnv(true);
@@ -122,13 +119,23 @@ void optimizePortfolio() {
             //getting solution
             double objval = model.get(GRB_DoubleAttr_ObjVal);
             printf("Largest Convexity we can get is %.3f \n",objval);
-            //cout << " " << setprecision(3) << objval << endl;
             cout << "****************************************************" << endl;
             cout << "To immunize against small changes in 'r' for each $1 of PV, you should buy" << endl;
             GRBVar* vars = model.getVars();
             int i = 0;
+            vector<pair<double, int>> solutions;
             for (GRBVar* p = vars; i < model.get(GRB_IntAttr_NumVars); i++, p++)
-                if (p->get(GRB_DoubleAttr_X) > 0) printf("$%f of Cash-Flow %d \n", p->get(GRB_DoubleAttr_X), i+1);
+                if (p->get(GRB_DoubleAttr_X) > 0) {
+                    printf("$%f of Cash-Flow %d \n", p->get(GRB_DoubleAttr_X), i + 1);
+                    solutions.push_back({ p->get(GRB_DoubleAttr_X),i + 1 });
+                }
+            for (int i = 0; i < immuneDollar.size(); i++) {
+                cout << "****************************************************" << endl;
+                printf("To immunize against small changes in 'r' for each $%.2f of PV, you should buy\n",immuneDollar[i]);
+                for (int j = 0; j< solutions.size(); j++)
+                    printf("$%.2f x %f = %.3f of Cash-Flow %d \n",immuneDollar[i], solutions[j].first, immuneDollar[i]*solutions[j].first, solutions[j].second);
+            }
+            
             
         }
         else if (optimistatus == GRB_INFEASIBLE) {
@@ -182,7 +189,7 @@ void readData(int argc, char* const argv[]) {
     //Calculate debtpv value using avgRate from yield to maturities
     for (int i = 0; i < nCfs; i++) avRate += ytms[i];
     avRate = avRate / (double) nCfs;
-    double pvDebt = debt / pow(1 + avRate, (double) debtDuration);
+    double pvDebt = debt / pow(1 + avRate,  debtDuration);
     printResult();
     // run gurobi optimization
     optimizePortfolio();
