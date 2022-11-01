@@ -1,0 +1,11 @@
+\ Model (null)_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Maximize
+ 
+Subject To
+ R0: lambda_0 + lambda_1 + lambda_2 = 1
+ R1: 7.758696458801941 lambda_0 + 8.205313743147656 lambda_1
+   + 8.580822815473859 lambda_2 = 10
+Bounds
+ lambda_2 free
+End

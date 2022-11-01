@@ -232,7 +232,7 @@ class portfolio_optimization
     }
     
 public:
-    void optimized(int argc, const char * argv[])
+    void optimized(int argc, char * argv[])
     {
         get_data(argc, argv);
         
