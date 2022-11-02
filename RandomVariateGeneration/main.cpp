@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -18,13 +19,10 @@ public:
     double getCauchy(){
         return tan(M_PI*(getUniform()-0.5));
     }
-
 };
 int main(int argc, char* argv[]) {
-    int bin = 100; //Graph width
     double mean = 0;
     int nTrails;
-    float y;
 
     vector<double> data;
 
@@ -38,9 +36,34 @@ int main(int argc, char* argv[]) {
     }
     mean = mean/nTrails;
     sort(data.begin(), data.end());
-    int med = nTrails/2;
+    double medIndx = nTrails/2;
+    double med = (data[floor(medIndx)] + data[ceil(medIndx)])/2;
     cout << "mean = " << mean << endl;
     cout << "med = " << data[med] << endl;
+
+    //Copy from Prof files
+    float y;
+    int count[100];
+
+    sscanf (argv[1], "%d", &nTrails);
+    ofstream pdf_comparison_file("pdf.csv");
+
+    for (int i = 0; i < 100; i++) {
+        count[i] = 0;
+    }
+
+    for (int i = 0; i < nTrails; i++) {
+        y = D.getCauchy();
+        for (int j = 0; j < 100; j++)
+            if ( (y >= ((float) (j-51)/10)) && (y < ((float) (j-50)/10))) count[j]++;
+    }
+
+    int sum = 0;
+    for (int j = 0; j < 100; j++) {
+        sum += count[j];
+        pdf_comparison_file << ((float) (j-50)/10) << ", " << ((float) count[j]/nTrails) << endl;
+    }
+
 
     return 0;
 }
