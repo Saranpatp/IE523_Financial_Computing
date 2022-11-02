@@ -28,18 +28,8 @@ int main(int argc, char* argv[]) {
 
     Distribution D;
 //    sscanf(argv[1],"%d",&nTrails);
-    nTrails = 1000;
-    for (int i = 0; i < nTrails; i++) {
-        double x = D.getCauchy();
-        data.push_back(x);
-        mean += x;
-    }
-    mean = mean/nTrails;
-    sort(data.begin(), data.end());
-    double medIndx = nTrails/2;
-    double med = (data[floor(medIndx)] + data[ceil(medIndx)])/2;
-    cout << "mean = " << mean << endl;
-    cout << "med = " << data[med] << endl;
+    nTrails = 1000000;
+
 
     //Copy from Prof files
     float y;
@@ -54,6 +44,8 @@ int main(int argc, char* argv[]) {
 
     for (int i = 0; i < nTrails; i++) {
         y = D.getCauchy();
+        data.push_back(y);
+        mean += y;
         for (int j = 0; j < 100; j++)
             if ( (y >= ((float) (j-51)/10)) && (y < ((float) (j-50)/10))) count[j]++;
     }
@@ -63,6 +55,15 @@ int main(int argc, char* argv[]) {
         sum += count[j];
         pdf_comparison_file << ((float) (j-50)/10) << ", " << ((float) count[j]/nTrails) << endl;
     }
+
+    mean = mean/nTrails;
+    sort(data.begin(), data.end());
+    double medIndx = (double) nTrails/2;
+    int test = floor(medIndx);
+    double med = (double) (data[floor(medIndx)] + data[ceil(medIndx)])/2;
+    cout << "mean = " << mean << endl;
+    cout << "med = " << med << endl;
+
 
 
     return 0;
