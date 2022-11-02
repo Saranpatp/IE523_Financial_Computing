@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
 
     Distribution D;
 //    sscanf(argv[1],"%d",&nTrails);
-    nTrails = 1000000;
+    nTrails = 90000;
 
 
     //Copy from Prof files
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
         pdf_comparison_file << ((float) (j-50)/10) << ", " << ((float) count[j]/nTrails) << endl;
     }
 
-    mean = mean/nTrails;
+    mean = mean/data.size();
     sort(data.begin(), data.end());
     double medIndx = (double) nTrails/2;
     int test = floor(medIndx);
