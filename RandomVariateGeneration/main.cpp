@@ -7,6 +7,9 @@
 
 using namespace std;
 
+#define CAUCHY_DENSITY(x) 1/(M_PI*(1+pow(x,2)))
+
+
 class Distribution{
     default_random_engine generator;
 private:
@@ -23,20 +26,21 @@ public:
 int main(int argc, char* argv[]) {
     double mean = 0;
     int nTrails;
+    float y;
+    int count[100];
 
     vector<double> data;
 
     Distribution D;
-//    sscanf(argv[1],"%d",&nTrails);
-    nTrails = 90000;
-
-
+    sscanf(argv[1],"%d",&nTrails);
     //Copy from Prof files
-    float y;
-    int count[100];
 
-    sscanf (argv[1], "%d", &nTrails);
-    ofstream pdf_comparison_file("pdf.csv");
+
+    ofstream meanAndMedFile ("meanAndMed.csv");
+    meanAndMedFile << "mean,med,trails" <<endl;
+    ofstream pdfFile("pdf.csv");
+
+//    while (nTrails <= 100000){
 
     for (int i = 0; i < 100; i++) {
         count[i] = 0;
@@ -51,20 +55,23 @@ int main(int argc, char* argv[]) {
     }
 
     int sum = 0;
+    pdfFile << ", " << "Experiment" << ", "<< "Theoretical" << endl;
     for (int j = 0; j < 100; j++) {
         sum += count[j];
-        pdf_comparison_file << ((float) (j-50)/10) << ", " << ((float) count[j]/nTrails) << endl;
+        pdfFile << ((float) (j-50)/10) << ", " << ((float) count[j]/nTrails) << ", "<< 0.1*CAUCHY_DENSITY((float)(j-50)/10) << endl;
     }
 
     mean = mean/data.size();
     sort(data.begin(), data.end());
-    double medIndx = (double) nTrails/2;
-    int test = floor(medIndx);
+    double medIndx = (double) data.size()/2;
     double med = (double) (data[floor(medIndx)] + data[ceil(medIndx)])/2;
     cout << "mean = " << mean << endl;
     cout << "med = " << med << endl;
-
-
-
+    cout << endl;
+    meanAndMedFile << mean << "," << med <<","<<nTrails<< endl;
+//        nTrails += 10000;
+//    }
+    pdfFile.close();
+    meanAndMedFile.close();
     return 0;
 }
