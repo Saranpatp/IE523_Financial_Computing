@@ -7,12 +7,13 @@ double risk_free_rate, strike_price;
 double initial_stock_price, expiration_time, volatility, R;
 int no_of_divisions;
 
+const int CACHE_SIZE = 10000;
 
-double call_price_array[10000][10000];
-double put_price_array[10000][10000];
+double call_price_array[CACHE_SIZE][CACHE_SIZE];
+double put_price_array[CACHE_SIZE][CACHE_SIZE];
 
-bool call_price_cal[10000][10000];
-bool put_price_cal[10000][10000];
+bool call_price_cal[CACHE_SIZE][CACHE_SIZE];
+bool put_price_cal[CACHE_SIZE][CACHE_SIZE];
 
 double max(double const a, double const b) {
     return (b < a )? a:b;
