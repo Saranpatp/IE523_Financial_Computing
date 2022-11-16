@@ -1,5 +1,3 @@
-// American-Asian Option Pricing using recursion
-// Written by Prof. R.S. Sreenivas for IE523: Financial Computing
 #include <iostream>
 #include <cmath>
 using namespace std;
