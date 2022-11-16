@@ -57,12 +57,12 @@ double american_put_option(int k, int i, double current_stock_price) {
 int main (int argc, char* argv[])
 {
 
-    sscanf (argv[1], "%d", &expiration_time);
+    sscanf (argv[1], "%lf", &expiration_time);
     sscanf (argv[2], "%d", &no_of_divisions);
-    sscanf (argv[3], "%d", &risk_free_rate);
-    sscanf (argv[4], "%d", &volatility);
-    sscanf (argv[5], "%d", &initial_stock_price);
-    sscanf (argv[6], "%d", &strike_price);
+    sscanf (argv[3], "%lf", &risk_free_rate);
+    sscanf (argv[4], "%lf", &volatility);
+    sscanf (argv[5], "%lf", &initial_stock_price);
+    sscanf (argv[6], "%lf", &strike_price);
 
 //    expiration_time = 0.5;
 //    no_of_divisions = 5000;
