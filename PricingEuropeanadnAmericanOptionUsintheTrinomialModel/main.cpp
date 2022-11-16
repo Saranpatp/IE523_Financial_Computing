@@ -95,19 +95,19 @@ double european_put_option(int k, int i) {
 int main (int argc, char* argv[])
 {
 
-//    sscanf (argv[1], "%d", &expiration_time);
-//    sscanf (argv[2], "%d", &no_of_divisions);
-//    sscanf (argv[3], "%d", &risk_free_rate);
-//    sscanf (argv[4], "%d", &volatility);
-//    sscanf (argv[5], "%d", &initial_stock_price);
-//    sscanf (argv[6], "%d", &strike_price);
+    sscanf (argv[1], "%d", &expiration_time);
+    sscanf (argv[2], "%d", &no_of_divisions);
+    sscanf (argv[3], "%d", &risk_free_rate);
+    sscanf (argv[4], "%d", &volatility);
+    sscanf (argv[5], "%d", &initial_stock_price);
+    sscanf (argv[6], "%d", &strike_price);
 
-    expiration_time = 0.5;
-    no_of_divisions = 5000;
-    risk_free_rate = 0.08;
-    volatility = 0.3;
-    initial_stock_price = 60;
-    strike_price = 50;
+//    expiration_time = 0.5;
+//    no_of_divisions = 5000;
+//    risk_free_rate = 0.08;
+//    volatility = 0.3;
+//    initial_stock_price = 60;
+//    strike_price = 50;
 
     R = exp(risk_free_rate*expiration_time/((double) no_of_divisions));
     up_factor = exp(volatility*sqrt((2.0*expiration_time)/((double) no_of_divisions)));
