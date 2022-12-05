@@ -7,9 +7,7 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated>
-      <config projectName="RandomVariateGeneration" targetName="RandomVariateGeneration" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
@@ -18,8 +16,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41e97292-43d3-4ea6-a4e6-6df83e71f503" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../EuropeanDownAndOut_Continuous_Discrete_Option_Pricing/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../EuropeanDownAndOut_Continuous_Discrete_Option_Pricing/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,14 +66,9 @@
   }
 }</component>
   <component name="RunManager">
-    <configuration name="RandomVariateGeneration" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="RandomVariateGeneration" TARGET_NAME="RandomVariateGeneration" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="RandomVariateGeneration" RUN_TARGET_NAME="RandomVariateGeneration">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -90,6 +83,7 @@
       <workItem from="1667360156990" duration="4066000" />
       <workItem from="1667417310996" duration="468000" />
       <workItem from="1667417841940" duration="4118000" />
+      <workItem from="1670200438272" duration="56000" />
     </task>
     <servers />
   </component>
